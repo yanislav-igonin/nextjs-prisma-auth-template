@@ -1,4 +1,4 @@
-import { GithubIcon } from '@components';
+import { GithubIcon } from 'src/components';
 
 const techs = ['next js', 'typescript', 'tailwind css'];
 

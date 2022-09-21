@@ -5,7 +5,7 @@ export enum ThemeMode {
   Dark = 'dark',
 }
 
-function useDarkMode() {
+export const useDarkMode = () => {
   const isBrowser = typeof window !== 'undefined';
   const [theme, setTheme] = useState(
     isBrowser ? localStorage.theme as ThemeMode : ThemeMode.Light
@@ -25,6 +25,4 @@ function useDarkMode() {
   }, [theme]);
 
   return [theme, setTheme] as [ThemeMode, Dispatch<ThemeMode>];
-}
-
-export default useDarkMode;
+};

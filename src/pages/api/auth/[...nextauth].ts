@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { db } from '@lib';
+import db from '@lib/db';
 
 export default NextAuth({
   providers: [
