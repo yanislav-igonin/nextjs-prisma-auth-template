@@ -35,8 +35,8 @@ yarn-error.log*
 *.tsbuildinfo
 
 # prisma orm
-src/db/dev.db
-src/db/dev.db-journal
+prisma/dev.db
+prisma/dev.db-journal
 
 # env
 .env
