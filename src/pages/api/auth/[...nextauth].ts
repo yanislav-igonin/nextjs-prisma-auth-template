@@ -14,11 +14,14 @@ export default NextAuth({
       async authorize(credentials, req) {
         if (credentials === undefined) return null;
         const { email, password } = credentials;
-        const user = await db.user.findFirst({ where: { email } });
+        const user = await db.user.findFirst({
+          where: { email },
+          select: { email: true, password: true }
+        });
         if (user === null) return null;
         const isPasswordValid = await passwords.compare(password, user.password);
         if (!isPasswordValid) return null;
-        return user;
+        return { email: user.email };
       }
     })
   ],
