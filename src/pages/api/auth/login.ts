@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@lib/db';
 import { compare } from '@lib/passwords';
 
-export default login = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function login (req: NextApiRequest, res: NextApiResponse) {
   const { email, password } = req.body as { email: string; password: string };
   if (req.body === undefined) return null;
   const user = await db.user.findFirst({
