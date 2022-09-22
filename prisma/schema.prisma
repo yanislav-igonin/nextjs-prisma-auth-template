@@ -9,7 +9,6 @@ generator client {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique
   expires      DateTime
   userId       String
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
