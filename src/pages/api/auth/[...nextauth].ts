@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import db from '@lib/db';
+import * as passwords from '@lib/passwords';
 
 export default NextAuth({
   providers: [
@@ -15,6 +16,8 @@ export default NextAuth({
         const { email, password } = credentials;
         const user = await db.user.findFirst({ where: { email } });
         if (user === null) return null;
+        const isPasswordValid = await passwords.compare(password, user.password);
+        if (!isPasswordValid) return null;
         return user;
       }
     })
