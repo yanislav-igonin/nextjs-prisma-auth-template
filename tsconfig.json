@@ -19,7 +19,7 @@
       "@components/*": ["src/components/*"],
       "@lib": ["src/lib"],
       "@lib/*": ["src/lib/*"],
-      "@config": ["src/config"],
+      "@config": ["src/lib/config"],
     },
     "baseUrl": "./",
   },
