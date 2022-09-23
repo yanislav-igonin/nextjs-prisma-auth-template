@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { db } from 'src/server/db/client';
+import { db } from '@db';
 import { compare } from '@lib/passwords';
 
 export default async function login (req: NextApiRequest, res: NextApiResponse) {

@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { DarkModeButton, MainCard } from 'src/components';
+import { DarkModeButton, MainCard } from '@components';
 
 const Home: NextPage = () => {
   return <div>

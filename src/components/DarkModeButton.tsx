@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDarkMode, ThemeMode } from '../lib/hooks/useDarkMode';
+import { useDarkMode, ThemeMode } from '@lib/hooks/useDarkMode';
 
 const lightModePath = <path
   strokeLinecap="round"

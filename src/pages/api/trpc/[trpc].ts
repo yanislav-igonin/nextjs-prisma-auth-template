@@ -1,23 +1,36 @@
-import { initTRPC } from '@trpc/server';
-import * as trpcNext from '@trpc/server/adapters/next';
-import { z } from 'zod';
-import superjson from 'superjson';
-
-export const t = initTRPC.create({ transformer: superjson });
-
-export const appRouter = t.router({
-  hello: t.procedure.input(z.object({ text: z.string() }))
-    .query(({ input }) => ({
-      greeting: `hello ${input?.text ?? 'world'}`,
-      time: new Date(),
-    })),
-});
-
-// export type definition of API
-export type AppRouter = typeof appRouter;
-
-// export API handler
-export default trpcNext.createNextApiHandler({
-  router: appRouter,
-  createContext: () => ({}),
-});
+/**
+ * This file contains tRPC's HTTP response handler
+ */
+ import * as trpcNext from '@trpc/server/adapters/next';
+ import { createContext } from 'server/context';
+ import { appRouter } from '@routers';
+ 
+ export default trpcNext.createNextApiHandler({
+   router: appRouter,
+   /**
+    * @link https://trpc.io/docs/context
+    */
+   createContext,
+   /**
+    * @link https://trpc.io/docs/error-handling
+    */
+   onError({ error }) {
+     if (error.code === 'INTERNAL_SERVER_ERROR') {
+       // send to bug reporting
+       console.error('Something went wrong', error);
+     }
+   },
+   /**
+    * Enable query batching
+    */
+   batching: {
+     enabled: true,
+   },
+   /**
+    * @link https://trpc.io/docs/caching#api-response-caching
+    */
+   // responseMeta() {
+   //   // ...
+   // },
+ });
+ 
