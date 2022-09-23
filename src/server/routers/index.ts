@@ -1,4 +1,5 @@
 import { t } from '../trpc';
+import { authRouter } from './auth.router';
 import { exampleRouter } from './example.router';
 import { healthRouter } from './health.router';
 
@@ -6,6 +7,7 @@ import { healthRouter } from './health.router';
 export const appRouter = t.router({
   health: healthRouter,
   example: exampleRouter,
+  auth: authRouter,
 });
 
 export type AppRouter = typeof appRouter;
