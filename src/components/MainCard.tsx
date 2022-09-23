@@ -10,7 +10,7 @@ export const MainCard = () => {
   const hello = trpc.example.hello.useQuery({ text: 'trpc' });
 
   return <div className="p-20 shadow-md bg-white dark:bg-slate-600">
-    <h1 className="text-4xl m-4 dark:text-white">nextjs template</h1>
+    <h1 className="text-4xl m-4 text-center dark:text-white">nextjs template</h1>
     <h2 className="text-2xl m-2 text-center dark:text-white">techstack</h2>
     <ul className="flex justify-center items-center flex-col">
       {renderTechs()}

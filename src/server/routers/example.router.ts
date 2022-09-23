@@ -5,7 +5,7 @@ export const exampleRouter = t.router({
   hello: t.procedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => ({
-      message: `Hello ${input.text}!`,
+      message: `hello ${input.text}!`,
       time: new Date(),
     })),
 });
