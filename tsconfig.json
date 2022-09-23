@@ -22,6 +22,8 @@
       "@config": ["src/lib/config"],
       "@pages/*": ["src/pages/*"],
       "@db/*": ["src/server/db/*"],
+      "@router": ["src/server/router"],
+      "@router/*": ["src/server/router/*"],
     },
     "baseUrl": "./",
   },
