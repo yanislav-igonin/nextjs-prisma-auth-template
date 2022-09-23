@@ -1,8 +1,11 @@
 import { initTRPC } from '@trpc/server';
+import superjson from 'superjson';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { z } from 'zod';
 
-export const t =  initTRPC.create();
+export const t =  initTRPC.create({
+  transformer: superjson,
+});
 
 export const appRouter = t.router({
   hello: t.procedure.input(
@@ -12,6 +15,7 @@ export const appRouter = t.router({
   ).query(({ input }) => {
       return {
         greeting: `hello ${input.text ?? 'world'}`,
+        time: new Date().toISOString(),
       };
     }),
 });

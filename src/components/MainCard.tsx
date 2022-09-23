@@ -17,7 +17,9 @@ export const MainCard = () => {
     </ul>
 
     {hello.data
-      ? <h2 className="text-2xl m-2 text-center dark:text-white">{hello.data.greeting}</h2>
+      ? <h2 className="text-2xl m-2 text-center dark:text-white">
+          <>{hello.data.greeting}</> at <>{hello.data.time}</>
+        </h2>
       : <h2 className="text-2xl m-2 text-center dark:text-white">loading...</h2>}
 
     <div className='flex justify-center items-center mt-10'>

@@ -1,4 +1,3 @@
-import { trpc } from '@lib/trpc';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { DarkModeButton, MainCard } from 'src/components';
