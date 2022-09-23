@@ -1,9 +1,39 @@
-import { createReactQueryHooks } from '@trpc/react';
-import type { AppRouter } from '@router';
+import { httpBatchLink } from '@trpc/client';
+import { createTRPCNext } from '@trpc/next';
+import superjson from 'superjson';
+import type { AppRouter } from '@pages/api/trpc/[trpc]';
+import { config } from './config';
 
-export const trpc = createReactQueryHooks<AppRouter>();
+function getBaseUrl() {
+  if (typeof window !== 'undefined') // browser should use relative path
+    return '';
 
-/**
- * Check out tRPC docs for Inference Helpers
- * https://trpc.io/docs/infer-types#inference-helpers
- */
+  // assume localhost
+  return `http://localhost:${config.port}`;
+}
+
+export const trpc = createTRPCNext<AppRouter>({
+  config({ ctx }) {
+    return {
+      links: [
+        httpBatchLink({
+          /**
+           * If you want to use SSR, you need to use the server's full URL
+           * @link https://trpc.io/docs/ssr
+           **/
+          url: `${getBaseUrl()}/api/trpc`,
+        }),
+      ],
+      transformer: superjson,
+      /**
+       * @link https://react-query-v3.tanstack.com/reference/QueryClient
+       **/
+      // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+    };
+  },
+  /**
+   * @link https://trpc.io/docs/ssr
+   **/
+  ssr: true,
+});
+// => { useQuery: ..., useMutation: ...}

@@ -7,7 +7,7 @@ const renderTechs = () => techs
   .map((t) => <li className="underline-offset-2 underline dark:text-white" key={t}>{t}</li>);
 
 export const MainCard = () => {
-  const hello = trpc.useQuery({ text: 'trpc' });
+  const hello = trpc.hello.useQuery({ text: 'trpc' });
 
   return <div className="p-20 shadow-md bg-white dark:bg-slate-600">
     <h1 className="text-4xl m-4 dark:text-white">nextjs template</h1>
@@ -18,7 +18,7 @@ export const MainCard = () => {
 
     {hello.data
       ? <h2 className="text-2xl m-2 text-center dark:text-white">
-          <>{hello.data.greeting}</> at <>{hello.data.time}</>
+          <>{hello.data.greeting}</> at <>{hello.data.time.toLocaleString()}</>
         </h2>
       : <h2 className="text-2xl m-2 text-center dark:text-white">loading...</h2>}
 
