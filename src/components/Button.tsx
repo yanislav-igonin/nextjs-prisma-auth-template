@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, FC, HTMLInputTypeAttribute, ReactNode } from 'react';
+import { Spinner } from './Spinner';
 
 type Props = {
   children: ReactNode;
@@ -22,5 +23,5 @@ export const Button: FC<Props> = ({
     min-w-full
     p-1
     ">
-  {children}
+  {!loading ? children : <Spinner/>}
 </button>;

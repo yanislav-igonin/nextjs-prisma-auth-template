@@ -33,4 +33,22 @@ export const authRouter = t.router({
     res.setHeader('Set-Cookie', `sid=${session.id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`);
     return { email: user.email };
   }),
+  me: t.procedure.query(async ({ ctx: { db, req } }) => {
+    const sessionId = req.cookies.sid as string;
+    const session = await db.session.findFirst({
+      where: { id: sessionId },
+      select: { userId: true },
+    });
+    if (session === null) {
+      return null;
+    }
+    const user = await db.user.findFirst({
+      where: { id: session.userId },
+      select: { email: true },
+    });
+    if (user === null) {
+      return null;
+    }
+    return { email: user.email };
+  }),
 });
