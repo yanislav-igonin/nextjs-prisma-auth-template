@@ -13,6 +13,14 @@ export const Button: FC<Props> = ({
   onClick={onClick}
   disabled={disabled || loading}
   type={type}
-  className="bg-emerald-300 rounded-sm">
+  className="
+    bg-emerald-500
+    hover:bg-emerald-600
+    text-white
+    font-medium
+    rounded-sm
+    min-w-full
+    p-1
+    ">
   {children}
 </button>;
