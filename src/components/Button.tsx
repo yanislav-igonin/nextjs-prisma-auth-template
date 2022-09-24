@@ -1,16 +1,18 @@
-import { FC } from 'react';
+import { ButtonHTMLAttributes, FC, HTMLInputTypeAttribute, ReactNode } from 'react';
 
 type Props = {
-  text: string;
-  onClick: () => void;
+  children: ReactNode;
+  onClick?: () => void;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
   disabled?: boolean;
   loading?: boolean;
 }
 export const Button: FC<Props> = ({
-  text, onClick, disabled = false, loading = false,
+  children, onClick, type='button', disabled = false, loading = false,
 }) => <button
   onClick={onClick}
   disabled={disabled || loading}
+  type={type}
   className="bg-emerald-300 rounded-sm">
-  {text}
+  {children}
 </button>;
