@@ -6,6 +6,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const login = trpc.auth.login.useMutation();
+  
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await login.mutateAsync({ email, password });
@@ -20,7 +21,7 @@ const Login = () => {
         <Input placeholder='Password' disabled={login.isLoading} type="password" value={password} onChange={e => setPassword(e.target.value)} />
       </div>
       <div className='m-1'>
-        <Button disabled={login.isLoading} type="submit">Login</Button>
+        <Button disabled={login.isLoading} loading={true} type="submit">Login</Button>
       </div>
     </form>
   </div>;

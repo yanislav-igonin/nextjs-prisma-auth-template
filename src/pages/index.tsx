@@ -30,15 +30,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 const Home: NextPage = () => {
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   const { data, isLoading } = trpc.auth.me.useQuery();
-  //   if (!data && !isLoading) {
-  //     router.push('/auth/login');
-  //   }
-  // });
-
   return <div>
     <Head>
       <title>NextJS Template</title>
