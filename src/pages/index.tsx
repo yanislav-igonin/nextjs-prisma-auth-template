@@ -1,7 +1,8 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import Head from 'next/head';
 import { DarkModeButton, MainCard } from '@components';
 import { db } from '@db';
+import { trpc } from '@lib/trpc';
 
 const loginRedirect = {
   redirect: {
@@ -10,7 +11,11 @@ const loginRedirect = {
   },
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+type Props = {
+  email: string;
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const sessionId = ctx.req.cookies.sid;
   if (!sessionId) {
     return loginRedirect;
@@ -29,7 +34,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-const Home: NextPage = () => {
+const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email }) => {
+  const hello = trpc.example.hello.useQuery({ text: 'trpc' });
+
   return <div>
     <Head>
       <title>NextJS Template</title>
@@ -39,7 +46,15 @@ const Home: NextPage = () => {
       <DarkModeButton />
     </div>
 
-    <main className="flex h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
+    <main className="flex flex-col h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
+      {hello.data
+        ? <h2 className="text-2xl m-2 text-center dark:text-white">
+          <>{hello.data.message}</> at <>{hello.data.time.toLocaleString()}</>
+        </h2>
+        : <h2 className="text-2xl m-2 text-center dark:text-white">loading...</h2>}
+
+      <h2>you: {email}</h2>
+
       <MainCard />
     </main>
   </div>;
