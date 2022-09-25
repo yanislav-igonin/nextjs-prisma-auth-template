@@ -1,22 +1,21 @@
-import { Button, Input } from '@components';
-import { trpc } from '@lib/trpc';
-import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react';
+import { trpc } from '@lib/trpc';
+import { Button, Input } from '@components';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const login = trpc.auth.login.useMutation();
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await login.mutateAsync({ email, password });
-      if (res === null) {
-        throw new TRPCClientError('Login failed');
-      }
-    } catch (error) {
-      console.log(JSON.parse(error?.message)[0].message);
+      await login.mutateAsync({ email, password });
+      router.push('/');
+    } catch (err) {
+      console.log(err.message);
     }
   };
 

@@ -21,6 +21,7 @@
       "@lib/*": ["lib/*"],
       "@config": ["lib/config"],
       "@pages/*": ["pages/*"],
+      "@errors": ["lib/errors"],
       // server
       "@db": ["server/db/client"],
       "@routers": ["server/routers"],

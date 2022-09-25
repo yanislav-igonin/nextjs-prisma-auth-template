@@ -1,10 +1,16 @@
 import { z } from 'zod';
 import { compare } from '@lib/passwords';
 import { t } from '../trpc';
+import { InvalidEmailOrPasswordError, UnauthorizedError } from '@lib/errors';
+import type { Session } from '@prisma/client';
 
 const ONE_MINUTE_MS = 60 * 1000;
 const ONE_HOUR_MS = 60 * ONE_MINUTE_MS;
 const ONE_DAY_MS = 24 * ONE_HOUR_MS;
+const ONE_DAY_S = ONE_DAY_MS / 1000;
+
+const getSessionCookie = ({ id }: Session) => 
+  `session=${id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`;
 
 export const authRouter = t.router({
   login: t.procedure.input(z.object({
@@ -17,11 +23,11 @@ export const authRouter = t.router({
       select: { email: true, password: true, id: true },
     });
     if (user === null) {
-      return null;
+      throw new InvalidEmailOrPasswordError();
     }
     const isPasswordValid = await compare(password, user.password);
     if (!isPasswordValid) {
-      return null;
+      throw new InvalidEmailOrPasswordError();
     }
     const session = await db.session.create({
       data: {
@@ -29,8 +35,7 @@ export const authRouter = t.router({
         expires: new Date(Date.now() + ONE_DAY_MS),
       },
     });
-    const ONE_DAY_S = ONE_DAY_MS / 1000;
-    res.setHeader('Set-Cookie', `sid=${session.id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`);
+    res.setHeader('Set-Cookie', getSessionCookie(session));
     return { email: user.email };
   }),
   me: t.procedure.query(async ({ ctx: { db, req } }) => {
@@ -40,14 +45,14 @@ export const authRouter = t.router({
       select: { userId: true },
     });
     if (session === null) {
-      return null;
+      throw new UnauthorizedError();
     }
     const user = await db.user.findFirst({
       where: { id: session.userId },
       select: { email: true },
     });
     if (user === null) {
-      return null;
+      throw new UnauthorizedError();
     }
     return { email: user.email };
   }),
