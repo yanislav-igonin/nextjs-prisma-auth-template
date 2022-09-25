@@ -19,7 +19,7 @@ export const Button: FC<Props> = ({
     hover:bg-rose-700
     text-white
     font-medium
-    rounded-sm
+    rounded-md
     min-w-full
     p-2
     ">
