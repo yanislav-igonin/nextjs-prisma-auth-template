@@ -15,8 +15,8 @@ export const Button: FC<Props> = ({
   disabled={disabled || loading}
   type={type}
   className="
-    bg-emerald-500
-    hover:bg-emerald-600
+    bg-rose-500
+    hover:bg-rose-700
     text-white
     font-medium
     rounded-sm
