@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { TRPCClientError } from '@trpc/client';
+import { NextPage } from 'next';
 import { trpc } from '@lib/trpc';
 import { Button, Input } from '@components';
-import { useRouter } from 'next/router';
 
-const Login = () => {
+const Login: NextPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const login = trpc.auth.login.useMutation();
@@ -15,7 +17,9 @@ const Login = () => {
       await login.mutateAsync({ email, password });
       router.push('/');
     } catch (err) {
-      console.log(err.message);
+      if (err instanceof TRPCClientError) {
+        console.log(err.message);
+      }
     }
   };
 

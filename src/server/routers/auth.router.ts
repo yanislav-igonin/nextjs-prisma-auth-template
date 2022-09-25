@@ -10,7 +10,7 @@ const ONE_DAY_MS = 24 * ONE_HOUR_MS;
 const ONE_DAY_S = ONE_DAY_MS / 1000;
 
 const getSessionCookieString = ({ id }: Session) => 
-  `session=${id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`;
+  `sid=${id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`;
 
 export const authRouter = t.router({
   login: t.procedure.input(z.object({
