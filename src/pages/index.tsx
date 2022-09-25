@@ -59,4 +59,5 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     </main>
   </div>;
 };
+
 export default Home;
