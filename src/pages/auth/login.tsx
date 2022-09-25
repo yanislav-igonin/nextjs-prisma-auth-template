@@ -21,7 +21,7 @@ const Login = () => {
         <Input placeholder='Password' disabled={login.isLoading} type="password" value={password} onChange={e => setPassword(e.target.value)} />
       </div>
       <div className='m-1'>
-        <Button disabled={login.isLoading} loading={true} type="submit">Login</Button>
+        <Button disabled={login.isLoading} loading={login.isLoading} type="submit">Login</Button>
       </div>
     </form>
   </div>;
