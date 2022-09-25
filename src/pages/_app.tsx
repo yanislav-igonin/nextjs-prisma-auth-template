@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@components';
 
 const MyApp: AppType = ({ Component, pageProps }) => <ErrorBoundary>
   <Head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
   </Head>
   <Component {...pageProps} />;
 </ErrorBoundary>;
