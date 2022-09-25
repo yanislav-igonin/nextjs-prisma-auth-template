@@ -9,7 +9,7 @@ const ONE_HOUR_MS = 60 * ONE_MINUTE_MS;
 const ONE_DAY_MS = 24 * ONE_HOUR_MS;
 const ONE_DAY_S = ONE_DAY_MS / 1000;
 
-const getSessionCookie = ({ id }: Session) => 
+const getSessionCookieString = ({ id }: Session) => 
   `session=${id}; Path=/; HttpOnly; Max-Age=${ONE_DAY_S}`;
 
 export const authRouter = t.router({
@@ -35,7 +35,7 @@ export const authRouter = t.router({
         expires: new Date(Date.now() + ONE_DAY_MS),
       },
     });
-    res.setHeader('Set-Cookie', getSessionCookie(session));
+    res.setHeader('Set-Cookie', getSessionCookieString(session));
     return { email: user.email };
   }),
   me: t.procedure.query(async ({ ctx: { db, req } }) => {
