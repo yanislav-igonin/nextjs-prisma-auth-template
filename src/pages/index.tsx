@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   };
 };
 
-const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ email }) => {
+const Home: NextPage = () => {
   const helloQuery = trpc.example.hello.useQuery({ text: 'trpc' });
   const meQuery = trpc.auth.me.useQuery();
   const me = meQuery.isLoading ? 'loading...' : meQuery.data?.email;
@@ -50,13 +50,12 @@ const Home: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
     <main className="flex flex-col h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
       {helloQuery.data
-        ? <h2 className="text-2xl m-2 text-center dark:text-white">
-          <>{helloQuery.data.message}</> at <>{helloQuery.data.time.toLocaleString()}</>
-        </h2>
-        : <h2 className="text-2xl m-2 text-center dark:text-white">loading...</h2>}
+        ? <h1 className="text-2xl mb-2 text-center dark:text-white">
+            <>{helloQuery.data.message}</> at <>{helloQuery.data.time.toLocaleString()}</>
+          </h1>
+        : <h1 className="text-2xl mb-2 text-center dark:text-white">loading...</h1>}
 
-      <h2 className='dark:text-white'>email (ssr): {email}</h2>
-      <h2 className='dark:text-white'>email (trpc): {me}</h2>
+      <h1 className='dark:text-white text-2xl mb-2'>email: {me}</h1>
 
       <MainCard />
     </main>
