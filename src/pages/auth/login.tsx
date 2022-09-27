@@ -24,7 +24,7 @@ const Login: NextPage = () => {
   };
 
   return <div className='flex items-center justify-center h-screen'>
-    <form onSubmit={onSubmit} className='flex flex-col'>
+    <form onSubmit={onSubmit} className='flex flex-col w-full px-4 md:w-1/4'>
       <div className='m-1'>
         <Input placeholder='Email' disabled={login.isLoading} type="email" value={email} onChange={e => setEmail(e.target.value)} />
       </div>

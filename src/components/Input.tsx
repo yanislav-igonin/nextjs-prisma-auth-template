@@ -13,7 +13,7 @@ export const Input: FC<Props> = ({
     value={value}
     onChange={onChange}
     type={type}
-    className="border border-gray-300 rounded-md p-2"
+    className="border border-gray-300 rounded-md p-2 w-full"
     placeholder={placeholder}
     disabled={disabled}
   />;
