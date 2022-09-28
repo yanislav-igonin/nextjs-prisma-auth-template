@@ -11,21 +11,22 @@ const loginRedirect = {
   },
 };
 
-// export const getServerSideProps: GetServerSideProps<typeof loginRedirect> = async (ctx) => {
-//   const sessionId = ctx.req.cookies.sid;
-//   if (!sessionId) {
-//     return loginRedirect;
-//   }
-//   const session = await db.session.findFirst({
-//     where: { id: sessionId },
-//     include: { user: true },
-//   });
-//   if (!session) {
-//     return loginRedirect;
-//   }
-// };
+export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
+  const sessionId = ctx.req.cookies.sid;
+  if (!sessionId) {
+    return loginRedirect;
+  }
+  const session = await db.session.findFirst({
+    where: { id: sessionId },
+    // include: { user: true },
+  });
+  if (!session) {
+    return loginRedirect;
+  }
+  return { props: {} };
+};
 
-const Home: NextPage = () => {
+const Home: NextPage = ({}) => {
   const helloQuery = trpc.example.hello.useQuery({ text: 'trpc' });
   const meQuery = trpc.auth.me.useQuery();
   const me = meQuery.isLoading ? 'loading...' : meQuery.data?.email;
