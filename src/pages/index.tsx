@@ -1,4 +1,4 @@
-import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import type { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next';
 import Head from 'next/head';
 import { DarkModeButton, MainCard } from '@components';
 import { db } from '@db';
@@ -11,28 +11,19 @@ const loginRedirect = {
   },
 };
 
-type Props = {
-  email: string;
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const sessionId = ctx.req.cookies.sid;
-  if (!sessionId) {
-    return loginRedirect;
-  }
-  const session = await db.session.findFirst({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-  if (!session) {
-    return loginRedirect;
-  }
-  return {
-    props: {
-      email: session.user.email,
-    },
-  };
-};
+// export const getServerSideProps: GetServerSideProps<typeof loginRedirect> = async (ctx) => {
+//   const sessionId = ctx.req.cookies.sid;
+//   if (!sessionId) {
+//     return loginRedirect;
+//   }
+//   const session = await db.session.findFirst({
+//     where: { id: sessionId },
+//     include: { user: true },
+//   });
+//   if (!session) {
+//     return loginRedirect;
+//   }
+// };
 
 const Home: NextPage = () => {
   const helloQuery = trpc.example.hello.useQuery({ text: 'trpc' });
