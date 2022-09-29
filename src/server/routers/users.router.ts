@@ -1,4 +1,4 @@
-import { t } from 'server/trpc';
+import { t } from '@trpc-server';
 
 export const usersRouter = t.router({
   getAll: t.procedure.query(async ({ ctx: { db } }) => {
