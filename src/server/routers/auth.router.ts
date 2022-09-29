@@ -38,31 +38,18 @@ export const authRouter = t.router({
     res.setHeader('Set-Cookie', getSessionCookieString(session));
     return { email: user.email };
   }),
-  logout: t.procedure.query(async ({ ctx: { req, res, db } }) => {
-    const sessionId = req.cookies.sid;
-    if (sessionId === undefined) {
+  logout: t.procedure.query(async ({ ctx: { session, res, db } }) => {
+    if (session === null || session.expires < new Date()) {
       throw new UnauthorizedError();
     }
-    const session = await db.session.findFirst({ where: { id: sessionId } });
-    if (session === null) {
-      throw new UnauthorizedError();
-    }
-    if (session.expires < new Date()) {
-      throw new UnauthorizedError();
-    }
-    await db.session.update({ where: { id: sessionId }, data: { expires: new Date() } });
+    await db.session.update({
+      where: { id: session.id },
+      data: { expires: new Date() },
+    });
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
   }),
-  me: t.procedure.query(async ({ ctx: { db, req, res } }) => {
-    const sessionId = req.cookies.sid as string || '';
-    const session = await db.session.findFirst({
-      where: { id: sessionId },
-      select: { userId: true, expires: true },
-    });
-    if (session === null) {
-      throw new UnauthorizedError();
-    }
-    if (session.expires < new Date()) {
+  me: t.procedure.query(async ({ ctx: { db, session } }) => {
+    if (session === null || session.expires < new Date()) {
       throw new UnauthorizedError();
     }
     const user = await db.user.findFirst({
