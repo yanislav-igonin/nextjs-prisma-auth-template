@@ -1,9 +1,10 @@
 import { UnauthorizedError } from '@lib/errors';
-import { t } from '../trpc';
+import { t } from '@trpc-server';
 
-export const authMiddleware = t.middleware(async ({ ctx: { session }, next }) => {
+export const authMiddleware = t.middleware(async ({ ctx, next }) => {
+  const { session } = ctx;
   if (session === null || session.expires < new Date()) {
     throw new UnauthorizedError();
   }
-  return next();
+  return next({ ctx: { ...ctx, session } });
 });

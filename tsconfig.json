@@ -25,6 +25,8 @@
       // server
       "@db": ["server/db/client"],
       "@routers": ["server/routers"],
+      "@middlewares": ["server/middlewares"],
+      "@trpc-server": ["server/trpc"],
     },
     "baseUrl": "./src"
   },
