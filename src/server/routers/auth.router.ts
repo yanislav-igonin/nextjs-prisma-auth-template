@@ -54,7 +54,6 @@ export const authRouter = t.router({
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
   }),
   me: t.procedure.query(async ({ ctx: { db, req, res } }) => {
-    // await sleep(5000);
     const sessionId = req.cookies.sid as string || '';
     const session = await db.session.findFirst({
       where: { id: sessionId },
@@ -76,5 +75,3 @@ export const authRouter = t.router({
     return { email: user.email };
   }),
 });
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
