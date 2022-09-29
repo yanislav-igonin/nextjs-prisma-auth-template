@@ -11,13 +11,13 @@ const loginRedirect = {
   },
 };
 
-export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
-  const sessionId = ctx.req.cookies.sid;
+export const getServerSideProps: GetServerSideProps<{}> = async ({ req }) => {
+  const sessionId = req.cookies.sid || '';
   if (!sessionId) {
     return loginRedirect;
   }
   const session = await db.session.findFirst({ where: { id: sessionId } });
-  if (!session) {
+  if (!session || session.expires < new Date()) {
     return loginRedirect;
   }
   return { props: {} };
