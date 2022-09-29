@@ -13,7 +13,7 @@ type ServerSideProps = {
   users: Pick<User, 'id' | 'email'>[];
 };
 
-export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req, query }) => {
   const sessionId = req.cookies.sid || '';
   if (!sessionId) {
     return loginRedirect;
@@ -22,7 +22,11 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
   if (!session || session.expires < new Date()) {
     return loginRedirect;
   }
-  const users = await db.user.findMany({ select: { email: true, id: true } });
+  const page = query.page ? Number(query.page) : 1;
+  const users = await db.user.findMany({
+    select: { email: true, id: true },
+    skip: (page - 1) * 20, take: 20,
+  });
   return {
     props: { users },
   };
