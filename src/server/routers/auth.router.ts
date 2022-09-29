@@ -3,6 +3,7 @@ import { compare } from '@lib/passwords';
 import { t } from '../trpc';
 import { InvalidEmailOrPasswordError, UnauthorizedError } from '@lib/errors';
 import type { Session } from '@prisma/client';
+import { authMiddleware } from '@middlewares';
 
 const ONE_MINUTE_MS = 60 * 1000;
 const ONE_HOUR_MS = 60 * ONE_MINUTE_MS;
@@ -38,20 +39,18 @@ export const authRouter = t.router({
     res.setHeader('Set-Cookie', getSessionCookieString(session));
     return { email: user.email };
   }),
-  logout: t.procedure.query(async ({ ctx: { session, res, db } }) => {
-    if (session === null || session.expires < new Date()) {
-      throw new UnauthorizedError();
-    }
+  logout: t.procedure.use(authMiddleware).query(async ({
+    ctx: { session, res, db },
+  }) => {
     await db.session.update({
       where: { id: session.id },
       data: { expires: new Date() },
     });
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
   }),
-  me: t.procedure.query(async ({ ctx: { db, session } }) => {
-    if (session === null || session.expires < new Date()) {
-      throw new UnauthorizedError();
-    }
+  me: t.procedure.use(authMiddleware).query(async ({
+    ctx: { db, session },
+  }) => {
     const user = await db.user.findFirst({
       where: { id: session.userId },
       select: { email: true },
