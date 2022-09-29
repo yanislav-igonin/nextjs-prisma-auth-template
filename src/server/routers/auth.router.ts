@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { Session } from '@prisma/client';
 import { compare } from '@lib/passwords';
 import { t } from '@trpc-server';
-import { InvalidEmailOrPasswordError, UnauthorizedError } from '@lib/errors';
+import { InvalidEmailOrPasswordError } from '@lib/errors';
 import { authMiddleware } from '@middlewares';
 
 const ONE_MINUTE_MS = 60 * 1000;
