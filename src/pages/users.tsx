@@ -1,6 +1,6 @@
 import { db } from '@db';
-import { User } from '@prisma/client';
-import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
+import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next';
+import Link from 'next/link';
 
 const loginRedirect = {
   redirect: {
@@ -9,11 +9,9 @@ const loginRedirect = {
   },
 };
 
-type ServerSideProps = {
-  users: Pick<User, 'id' | 'email'>[];
-};
-
-export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ req, query }) => {
+export const getServerSideProps = async (
+  { req, query }: GetServerSidePropsContext
+) => {
   const sessionId = req.cookies.sid || '';
   if (!sessionId) {
     return loginRedirect;
@@ -27,16 +25,28 @@ export const getServerSideProps: GetServerSideProps<ServerSideProps> = async ({ 
     select: { email: true, id: true },
     skip: (page - 1) * 20, take: 20,
   });
+  const usersCount = await db.user.count();
   return {
-    props: { users },
+    props: { users, usersCount },
   };
 };
 
-const Users: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = ({ users }) => {
+const Users: NextPage<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ users, usersCount }) => {
+  const pagesCount = Math.ceil(usersCount / 20);
+  const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   return <div>
     <h1>Users</h1>
     <ul>
       {users.map((user) => <li key={user.id}>{user.email}</li>)}
+    </ul>
+    <ul className='flex justify-center items-center gap-2'>
+      {pages.map((page) => <li key={page}>
+        <Link href={`/users?page=${page}`}>
+          <a className='text-lg'>{page}</a>
+        </Link>  
+      </li>)}
     </ul>
   </div>;
 };

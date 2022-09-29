@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
 import { DarkModeButton, MainCard } from '@components';
 import { db } from '@db';
@@ -12,7 +12,7 @@ const loginRedirect = {
   },
 };
 
-export const getServerSideProps: GetServerSideProps<{}> = async ({ req }) => {
+export const getServerSideProps = async ({ req }: GetServerSidePropsContext) => {
   const sessionId = req.cookies.sid || '';
   if (!sessionId) {
     return loginRedirect;
