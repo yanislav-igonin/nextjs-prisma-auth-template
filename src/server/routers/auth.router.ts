@@ -48,16 +48,4 @@ export const authRouter = t.router({
     });
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
   }),
-  me: t.procedure.use(authMiddleware).query(async ({
-    ctx: { db, session },
-  }) => {
-    const user = await db.user.findFirst({
-      where: { id: session.userId },
-      select: { email: true },
-    });
-    if (!user) {
-      throw new UnauthorizedError();
-    }
-    return { email: user.email };
-  }),
 });

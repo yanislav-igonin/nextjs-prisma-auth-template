@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<{}> = async ({ req }) => {
 
 const Home: NextPage = () => {
   const helloQuery = trpc.example.hello.useQuery({ text: 'trpc' });
-  const meQuery = trpc.auth.me.useQuery();
+  const meQuery = trpc.users.me.useQuery();
   const me = meQuery.isLoading ? 'loading...' : meQuery.data?.email;
 
   return <div>
