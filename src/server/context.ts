@@ -29,8 +29,7 @@ export async function createContext(
   opts: trpcNext.CreateNextContextOptions,
 ): Promise<Context> {
   const { req, res } = opts;
-  const cookies = req.cookies;
-  const sessionId = cookies.sessionId;
+  const sessionId = req.cookies.sid || '';
   const session = await db.session.findFirst({ where: { id: sessionId } });
   return await createContextInner({ req, res, session, db  });
 }
