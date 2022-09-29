@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 const HASH_ROUNDS = 12;
+const usersSeedCount = 1000;
 
 const main = async () => {
   const password = await bcrypt.hash('1234qwerA_', HASH_ROUNDS);
@@ -12,6 +13,14 @@ const main = async () => {
       password,
     },
   });
+  for (let i = 0; i < usersSeedCount; i++) {
+    await prisma.user.create({
+      data: {
+        email: `seed${i}@user.com`,
+        password,
+      },
+    });
+  }
 };
 
 main()
