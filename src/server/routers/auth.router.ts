@@ -23,7 +23,7 @@ export const authRouter = t.router({
       where: { email },
       select: { email: true, password: true, id: true },
     });
-    if (user === null) {
+    if (!user) {
       throw new InvalidEmailOrPasswordError();
     }
     const isPasswordValid = await compare(password, user.password);
@@ -55,7 +55,7 @@ export const authRouter = t.router({
       where: { id: session.userId },
       select: { email: true },
     });
-    if (user === null) {
+    if (!user) {
       throw new UnauthorizedError();
     }
     return { email: user.email };

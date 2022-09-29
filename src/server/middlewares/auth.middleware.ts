@@ -3,7 +3,7 @@ import { t } from '@trpc-server';
 
 export const authMiddleware = t.middleware(async ({ ctx, next }) => {
   const { session } = ctx;
-  if (session === null || session.expires < new Date()) {
+  if (!session || session.expires < new Date()) {
     throw new UnauthorizedError();
   }
   return next({ ctx: { ...ctx, session } });
