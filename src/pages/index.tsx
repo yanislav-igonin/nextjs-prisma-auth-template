@@ -12,7 +12,10 @@ const loginRedirect = {
 };
 
 export const getServerSideProps: GetServerSideProps<{}> = async (ctx) => {
-  const sessionId = ctx.req.cookies.sid as string;
+  const sessionId = ctx.req.cookies.sid;
+  if (!sessionId) {
+    return loginRedirect;
+  }
   const session = await db.session.findFirst({ where: { id: sessionId } });
   if (!session) {
     return loginRedirect;
