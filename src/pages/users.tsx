@@ -1,6 +1,8 @@
+import { GetServerSidePropsContext, NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { db } from '@db';
-import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next';
-import Link from 'next/link';
+import { trpc } from '@lib/trpc';
 
 const loginRedirect = {
   redirect: {
@@ -9,9 +11,7 @@ const loginRedirect = {
   },
 };
 
-export const getServerSideProps = async (
-  { req, query }: GetServerSidePropsContext
-) => {
+export const getServerSideProps = async ({ req }: GetServerSidePropsContext) => {
   const sessionId = req.cookies.sid || '';
   if (!sessionId) {
     return loginRedirect;
@@ -20,32 +20,36 @@ export const getServerSideProps = async (
   if (!session || session.expires < new Date()) {
     return loginRedirect;
   }
-  const page = query.page ? Number(query.page) : 1;
-  const users = await db.user.findMany({
-    select: { email: true, id: true },
-    skip: (page - 1) * 20, take: 20,
-  });
-  const usersCount = await db.user.count();
-  return {
-    props: { users, usersCount },
-  };
+  return { props: {} };
 };
 
-const Users: NextPage<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ users, usersCount }) => {
-  const pagesCount = Math.ceil(usersCount / 20);
+const Users: NextPage = () => {
+  const router = useRouter();
+  const pageFromQuery = Number(router.query.page) || 1;
+  const [activePage, setActivePage] = useState(pageFromQuery);
+  
+  const onPaginationChange = async (page: number) => {
+    setActivePage(page);
+    router.push(`/users?page=${page}`, undefined, { shallow: true });
+  };
+
+  const { data } = trpc.users.getAll.useQuery({ page: activePage });
+  const pagesCount = data ? Math.ceil(data?.count / 20) : 0;
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   return <div>
     <h1>Users</h1>
     <ul>
-      {users.map((user) => <li key={user.id}>{user.email}</li>)}
+      { !data
+        ? 'loading...'
+        : data.users.map((user) => <li key={user.id}>{user.email}</li>)}
     </ul>
-    <ul className='flex justify-center items-center gap-2'>
+    <ul className='flex justify-center items-center gap-2 flex-wrap'>
       {pages.map((page) => <li key={page}>
-        <Link href={`/users?page=${page}`}>
-          <a className='text-lg'>{page}</a>
-        </Link>  
+        <p onClick={() => onPaginationChange(page)}
+          className='text-lg cursor-pointer'
+          style={{ color: page === activePage ? 'blue' : 'inherit' }}>
+            {page}
+        </p>
       </li>)}
     </ul>
   </div>;
