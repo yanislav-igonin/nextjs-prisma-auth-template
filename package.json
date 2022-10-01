@@ -9,6 +9,7 @@
     "lint": "next lint --fix"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.11",
     "@prisma/client": "^4.3.1",
     "@tanstack/react-query": "^4.3.9",
     "@trpc/client": "^10.0.0-proxy-beta.5",
