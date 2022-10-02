@@ -38,7 +38,7 @@ const MenuLinkButton = (
   p-2
   cursor-pointer
   w-12
-  hover:bg-red-700
+  hover:bg-red-500
   ${isActive ? 'bg-rose-500' : ''}`}>
     {icon}
   </button>;
