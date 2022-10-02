@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HomeIcon, UsersIcon } from '@heroicons/react/24/solid';
+import { HomeIcon, UsersIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 
 type Link = {
@@ -22,20 +22,31 @@ export const SidebarMenu = () => {
       <MenuLink key={link.href} {...link}
         isActive={link.href === currentPath} />
     )}
+    <div className='absolute bottom-0'>
+      <LogoutMenuLink />
+    </div>
   </nav>;
 };
 
 type MenuLinkProps = Link & { isActive: boolean };
 
-const MenuLink = ({ href, label, icon, isActive }: MenuLinkProps) =>
+const MenuLinkButton = (
+  { icon, isActive }: Pick<MenuLinkProps, 'icon' | 'isActive'>
+) =>
+  <button className={`
+    text-lg
+    p-2
+    cursor-pointer
+    w-12
+    hover:bg-red-700
+    ${isActive ? 'bg-rose-500' : ''}`}>
+    {icon}
+  </button>;
+
+const MenuLink = ({ href, icon, isActive }: MenuLinkProps) =>
   <Link href={href} key={href}>
-    <button className={`
-      text-lg
-      p-2
-      cursor-pointer
-      w-12
-      hover:bg-red-700
-      ${isActive ? 'bg-rose-500' : ''}`}>
-      {icon}
-    </button>
+    <MenuLinkButton icon={icon} isActive={isActive} />
   </Link>;
+
+const LogoutMenuLink = () => <MenuLinkButton isActive={false}
+  icon={<ArrowRightOnRectangleIcon fill='white' />} />;
