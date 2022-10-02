@@ -1,6 +1,6 @@
 import type { GetServerSidePropsContext, NextPage } from 'next';
 import Head from 'next/head';
-import { DarkModeButton, MainCard } from '@components';
+import { DarkModeButton, Layout, MainCard } from '@components';
 import { db } from '@db';
 import { trpc } from '@lib/trpc';
 import Link from 'next/link';
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
   const meQuery = trpc.users.me.useQuery();
   const me = meQuery.isLoading ? 'loading...' : meQuery.data?.email;
 
-  return <div>
+  return <Layout>
     <Head>
       <title>NextJS Template</title>
     </Head>
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
       <DarkModeButton />
     </div>
 
-    <main className="flex flex-col h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
+    <main className="flex flex-col w-screen h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
       {helloQuery.data
         ? <h1 className="text-2xl mb-2 text-center dark:text-white">
           <>{helloQuery.data.message}</> at <>{helloQuery.data.time.toLocaleString()}</>
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 
       <MainCard />
     </main>
-  </div>;
+  </Layout>;
 };
 
 export default Home;

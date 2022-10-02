@@ -14,7 +14,7 @@ export const SidebarMenu = () => {
     { href: '/users-ssr', label: 'Users SSR', icon: <UsersIcon /> },
   ];
 
-  return <nav className='flex flex-col gap-2 absolute'>
+  return <nav className='flex flex-col gap-2 h-screen'>
     {links.map((link) => <MenuLink key={link.href} {...link} />)}
   </nav>;
 };

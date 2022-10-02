@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from
 import { useRouter } from 'next/router';
 import { db } from '@db';
 import Link from 'next/link';
+import { Layout } from '@components';
 
 const loginRedirect = {
   redirect: {
@@ -36,22 +37,24 @@ const Users: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
   const pageFromQuery = Number(router.query.page) || 1;
   const pagesCount = Math.ceil(count / 20);
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
-  return <div>
-    <h1>Users</h1>
-    <ul>
-      {users.map((user) => <li key={user.id}>{user.email}</li>)}
-    </ul>
-    <ul className='flex justify-center items-center gap-2 flex-wrap'>
-      {pages.map((page) => <li key={page}>
-        <Link href={`/users-ssr?page=${page}`}>
-          <a className='text-lg cursor-pointer'
-            style={{ color: page === pageFromQuery ? 'blue' : 'inherit' }}>
-            {page}
-          </a>
-        </Link>
-      </li>)}
-    </ul>
-  </div >;
+  return <Layout>
+    <main>
+      <h1>Users</h1>
+      <ul>
+        {users.map((user) => <li key={user.id}>{user.email}</li>)}
+      </ul>
+      <ul className='flex justify-center items-center gap-2 flex-wrap'>
+        {pages.map((page) => <li key={page}>
+          <Link href={`/users-ssr?page=${page}`}>
+            <a className='text-lg cursor-pointer'
+              style={{ color: page === pageFromQuery ? 'blue' : 'inherit' }}>
+              {page}
+            </a>
+          </Link>
+        </li>)}
+      </ul>
+    </main>
+  </Layout>;
 };
 
 export default Users;
