@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { HomeIcon, UsersIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { trpc } from '@lib/trpc';
 
 type Link = {
   href: string;
@@ -17,13 +18,19 @@ export const SidebarMenu = () => {
   ];
   const router = useRouter();
   const currentPath = router.pathname;
+  const logout = trpc.auth.logout.useMutation();
+
+  const onLogout = async () => {
+    await logout.mutateAsync();
+    await router.push('/auth/login');
+  };
 
   return <nav className='flex flex-col h-screen bg-slate-800'>
     {links.map((link) =>
       <MenuLink key={link.href} {...link}
         isActive={link.href === currentPath} />
     )}
-    <div className='absolute bottom-0'>
+    <div className='absolute bottom-0' onClick={onLogout} >
       <LogoutMenuLink />
     </div>
   </nav>;

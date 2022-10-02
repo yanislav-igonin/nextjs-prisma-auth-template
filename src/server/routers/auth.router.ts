@@ -39,7 +39,7 @@ export const authRouter = t.router({
     res.setHeader('Set-Cookie', getSessionCookieString(session));
     return { email: user.email };
   }),
-  logout: t.procedure.use(authMiddleware).query(async ({
+  logout: t.procedure.use(authMiddleware).mutation(async ({
     ctx: { session, res, db },
   }) => {
     await db.session.update({
@@ -47,5 +47,6 @@ export const authRouter = t.router({
       data: { expires: new Date() },
     });
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
+    return { ok: true };
   }),
 });
