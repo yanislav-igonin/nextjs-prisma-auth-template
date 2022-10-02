@@ -38,7 +38,7 @@ const Users: NextPage = () => {
   const pagesCount = data ? Math.ceil(data?.count / 20) : 0;
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   return <Layout>
-    <main>
+    <main className='p-4'>
       <h1>Users</h1>
       <ul>
         {!data

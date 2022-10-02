@@ -38,7 +38,7 @@ const Users: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
   const pagesCount = Math.ceil(count / 20);
   const pages = Array.from({ length: pagesCount }, (_, i) => i + 1);
   return <Layout>
-    <main>
+    <main className='p-4'>
       <h1>Users</h1>
       <ul>
         {users.map((user) => <li key={user.id}>{user.email}</li>)}
