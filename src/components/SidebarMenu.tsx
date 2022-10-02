@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HomeIcon, UsersIcon } from '@heroicons/react/20/solid';
+import { HomeIcon, UsersIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/router';
 
 type Link = {
@@ -10,14 +10,14 @@ type Link = {
 
 export const SidebarMenu = () => {
   const links: Link[] = [
-    { href: '/', label: 'Home', icon: <HomeIcon /> },
-    { href: '/users', label: 'Users', icon: <UsersIcon /> },
-    { href: '/users-ssr', label: 'Users SSR', icon: <UsersIcon /> },
+    { href: '/', label: 'Home', icon: <HomeIcon fill='white' /> },
+    { href: '/users', label: 'Users', icon: <UsersIcon fill='white' /> },
+    { href: '/users-ssr', label: 'Users SSR', icon: <UsersIcon fill='white' /> },
   ];
   const router = useRouter();
   const currentPath = router.pathname;
 
-  return <nav className='flex flex-col gap-2 h-screen'>
+  return <nav className='flex flex-col h-screen bg-slate-800'>
     {links.map((link) =>
       <MenuLink key={link.href} {...link}
         isActive={link.href === currentPath} />
@@ -29,7 +29,13 @@ type MenuLinkProps = Link & { isActive: boolean };
 
 const MenuLink = ({ href, label, icon, isActive }: MenuLinkProps) =>
   <Link href={href} key={href}>
-    <a className={`text-lg cursor-pointer w-10 ${isActive ? 'bg-rose-500' : ''}`}>
+    <button className={`
+      text-lg
+      p-2
+      cursor-pointer
+      w-12
+      hover:bg-red-700
+      ${isActive ? 'bg-rose-500' : ''}`}>
       {icon}
-    </a>
+    </button>
   </Link>;
