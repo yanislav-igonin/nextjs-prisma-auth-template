@@ -4,6 +4,7 @@ import { compare } from '@lib/passwords';
 import { t } from '@trpc-server';
 import { InvalidEmailOrPasswordError } from '@lib/errors';
 import { authMiddleware } from '@middlewares';
+import { OkResponse } from '@lib/responses';
 
 const ONE_MINUTE_MS = 60 * 1000;
 const ONE_HOUR_MS = 60 * ONE_MINUTE_MS;
@@ -47,6 +48,6 @@ export const authRouter = t.router({
       data: { expires: new Date() },
     });
     res.setHeader('Set-Cookie', 'sid=; Path=/; HttpOnly; Max-Age=0');
-    return { ok: true };
+    return new OkResponse();
   }),
 });
