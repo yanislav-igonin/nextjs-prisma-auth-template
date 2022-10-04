@@ -5,7 +5,10 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-// Prevent multiple instances of Prisma Client in development
-export const db = global.prisma || new PrismaClient({ log: ['query'] });
+const { isProduction } = config;
 
-if (config.isProduction) global.prisma = db;
+// Prevent multiple instances of Prisma Client in development
+const logLevel = isProduction ? 'error' : 'info';
+export const db = global.prisma || new PrismaClient({ log: [logLevel] });
+
+if (isProduction) global.prisma = db;
