@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  app:
+    image: docker.pkg.github.com/yanislav-igonin/nextjs-prisma-auth-template/image:latest
+    networks:
+      - web
+    environment: 
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      labels:
+        traefik.enable: "true"
+        traefik.docker.network: "web"
+        
+        traefik.http.services.nextjs.loadbalancer.server.port: "3000"
+
+        traefik.http.middlewares.nextjs-https-redirect.redirectscheme.scheme: "https"
+
+        traefik.http.routers.nextjs.entrypoints: "http"
+        traefik.http.routers.nextjs.rule: "Host(`nextjs.igonin.dev`)"
+        traefik.http.routers.nextjs.middlewares: "nextjs-https-redirect"
+
+        traefik.http.routers.nextjs-secure.entrypoints: "https"
+        traefik.http.routers.nextjs-secure.rule: "Host(`nextjs.igonin.dev`)"
+        traefik.http.routers.nextjs-secure.tls: "true"
+        traefik.http.routers.nextjs-secure.service: "nextjs"
+
+networks:
+  web:
+    driver: overlay
+    external: true
