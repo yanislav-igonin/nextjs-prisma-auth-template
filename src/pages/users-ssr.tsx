@@ -45,16 +45,14 @@ const Users: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
       </ul>
       <ul className='flex justify-center items-center gap-2 flex-wrap'>
         {pages.map((page) => <li key={page}>
-          <Link href={`/users-ssr?page=${page}`}>
-            <a className='text-lg cursor-pointer'
+          <Link className='text-lg cursor-pointer' href={`/users-ssr?page=${page}`}
               style={{ color: page === pageFromQuery ? 'blue' : 'inherit' }}>
-              {page}
-            </a>
-          </Link>
+          {page}
+        </Link>
         </li>)}
-      </ul>
-    </main>
-  </Layout>;
+    </ul>
+  </main>
+  </Layout >;
 };
 
 export default Users;

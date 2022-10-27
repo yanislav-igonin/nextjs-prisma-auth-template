@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { trpc } from '@lib/trpc';
 
-type Link = {
+type LinkProps = {
   href: string;
   label: string;
   icon: JSX.Element;
 }
 
 export const SidebarMenu = () => {
-  const links: Link[] = [
+  const links: LinkProps[] = [
     { href: '/', label: 'Home', icon: <HomeIcon fill='white' /> },
     { href: '/users', label: 'Users', icon: <UsersIcon fill='white' /> },
     { href: '/users-ssr', label: 'Users SSR', icon: <UsersIcon fill='white' /> },
@@ -36,7 +36,7 @@ export const SidebarMenu = () => {
   </nav>;
 };
 
-type MenuLinkProps = Link & { isActive: boolean };
+type MenuLinkProps = LinkProps & { isActive: boolean };
 
 const MenuLinkButton = (
   { icon, isActive }: Pick<MenuLinkProps, 'icon' | 'isActive'>
@@ -51,9 +51,7 @@ const MenuLinkButton = (
   </button>;
 
 const MenuLink = ({ href, icon, isActive }: MenuLinkProps) => <Link href={href}>
-  <a>
-    <MenuLinkButton icon={icon} isActive={isActive} />
-  </a>
+  <MenuLinkButton icon={icon} isActive={isActive} />
 </Link>;
 
 const LogoutMenuLink = () => <MenuLinkButton isActive={false}
