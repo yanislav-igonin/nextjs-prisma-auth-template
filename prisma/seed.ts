@@ -11,7 +11,8 @@ const main = async () => {
   for (let i = 0; i < usersSeedCount; i++) {
     users.push({ email: `seed${i}@user.com`, password });
   }
-  await prisma.user.createMany({ data: users });
+  const promises = users.map((user) => prisma.user.create({ data: user }));
+  await Promise.all(promises);
 };
 
 main()
