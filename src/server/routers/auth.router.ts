@@ -31,12 +31,8 @@ export const authRouter = t.router({
     if (!isPasswordValid) {
       throw new InvalidEmailOrPasswordError();
     }
-    const session = await db.session.create({
-      data: {
-        userId: user.id,
-        expires: new Date(Date.now() + ONE_DAY_MS),
-      },
-    });
+    const sessionData = { userId: user.id, expires: new Date(Date.now() + ONE_DAY_MS) };
+    const session = await db.session.create({ data: sessionData });
     res.setHeader('Set-Cookie', getSessionCookieString(session));
     return { email: user.email };
   }),
