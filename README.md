@@ -1,9 +1,26 @@
 # nextjs-prisma-auth-template
-<!-- Demo - https://nextjs-template-one-mu.vercel.app/ -->
 
 ## Tech Stack
 - TypeScript
 - Next.js
-- Next Auth
 - Prisma
+- tRPC
 - Tailwind CSS
+
+## Run
+Install dependencies
+```bash
+npm install
+```
+
+Prepare DB
+```bash
+npx prisma generate
+npx prisma db push
+npx prisma db seed
+```
+
+Run dev server
+```bash
+npm run dev
+```
