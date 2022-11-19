@@ -13,6 +13,8 @@ Install dependencies
 npm install
 ```
 
+Change DB adapter in `prisma/schema.prisma` to `sqlite`
+
 Prepare DB
 ```bash
 npx prisma generate
