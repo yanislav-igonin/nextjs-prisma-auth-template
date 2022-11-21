@@ -12,7 +12,7 @@ type LinkProps = {
 
 export const SidebarMenu = () => {
   const links: LinkProps[] = [
-    { href: '/', label: 'Home', icon: <HomeIcon fill='white' /> },
+    { href: '/dashboard', label: 'dashboard', icon: <HomeIcon fill='white' /> },
     { href: '/users', label: 'Users', icon: <UsersIcon fill='white' /> },
     { href: '/users-ssr', label: 'Users SSR', icon: <UsersIcon fill='white' /> },
   ];
