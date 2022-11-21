@@ -15,7 +15,7 @@ const Login: NextPage = () => {
     e.preventDefault();
     try {
       await login.mutateAsync({ email, password });
-      router.push('/');
+      router.push('/dashboard');
     } catch (err) {
       if (err instanceof TRPCClientError) {
         console.log(err.message);
