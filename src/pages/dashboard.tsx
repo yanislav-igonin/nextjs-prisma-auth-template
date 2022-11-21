@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import { Layout } from '@components';
 import { trpc } from '@lib/trpc';
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
   const meQuery = trpc.users.me.useQuery();
 
   return <Layout>
@@ -14,4 +14,4 @@ const Home: NextPage = () => {
   </Layout>;
 };
 
-export default Home;
+export default Dashboard;
