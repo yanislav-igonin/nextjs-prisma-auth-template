@@ -21,7 +21,6 @@ export const Button: FC<Props> = ({
     font-medium
     rounded-md
     min-w-full
-    p-2
-    ">
+    p-2">
   {!loading ? children : <Spinner/>}
 </button>;
