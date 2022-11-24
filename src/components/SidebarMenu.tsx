@@ -25,7 +25,7 @@ export const SidebarMenu = () => {
     await router.push('/auth/login');
   };
 
-  return <nav className='flex flex-col h-screen bg-slate-800'>
+  return <nav className='flex h-screen flex-col bg-slate-800'>
     {links.map((link) =>
       <MenuLink key={link.href} {...link}
         isActive={link.href === currentPath} />
@@ -41,10 +41,10 @@ type MenuLinkProps = LinkProps & { isActive: boolean };
 const MenuLinkButton = (
   { icon, isActive }: Pick<MenuLinkProps, 'icon' | 'isActive'>
 ) => <button className={`
-  text-lg
-  p-2
-  cursor-pointer
   w-12
+  cursor-pointer
+  p-2
+  text-lg
   hover:bg-red-500
   ${isActive ? 'bg-rose-500' : ''}`}>
     {icon}

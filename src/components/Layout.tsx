@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { SidebarMenu } from './SidebarMenu';
 
 export const Layout = ({ children }: { children: ReactNode }) =>

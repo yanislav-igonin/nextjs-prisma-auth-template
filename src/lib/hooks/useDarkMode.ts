@@ -1,4 +1,5 @@
-import { Dispatch, useEffect, useState } from 'react';
+import type { Dispatch } from 'react';
+import { useEffect, useState } from 'react';
 
 export enum ThemeMode {
   Light = 'light',

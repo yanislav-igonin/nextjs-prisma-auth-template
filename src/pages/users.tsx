@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, NextPage } from 'next';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { db } from '@db';
@@ -45,10 +45,10 @@ const Users: NextPage = () => {
           ? 'loading...'
           : data.users.map((user) => <li key={user.id}>{user.email}</li>)}
       </ul>
-      <ul className='flex justify-center items-center gap-2 flex-wrap'>
+      <ul className='flex flex-wrap items-center justify-center gap-2'>
         {pages.map((page) => <li key={page}>
           <p onClick={() => onPaginationChange(page)}
-            className='text-lg cursor-pointer'
+            className='cursor-pointer text-lg'
             style={{ color: page === activePage ? 'blue' : 'inherit' }}>
             {page}
           </p>

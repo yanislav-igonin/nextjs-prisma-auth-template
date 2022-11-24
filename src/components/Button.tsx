@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, HTMLInputTypeAttribute, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 import { Spinner } from './Spinner';
 
 type Props = {
@@ -15,12 +15,12 @@ export const Button: FC<Props> = ({
   disabled={disabled || loading}
   type={type}
   className="
-    bg-rose-500
-    hover:bg-rose-700
-    text-white
-    font-medium
-    rounded-md
     min-w-full
-    p-2">
+    rounded-md
+    bg-rose-500
+    p-2
+    font-medium
+    text-white
+    hover:bg-rose-700">
   {!loading ? children : <Spinner/>}
 </button>;

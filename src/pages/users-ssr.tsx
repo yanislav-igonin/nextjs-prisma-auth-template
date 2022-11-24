@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next';
+import type { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { db } from '@db';
 import Link from 'next/link';
@@ -43,9 +43,9 @@ const Users: NextPage<InferGetServerSidePropsType<typeof getServerSideProps>> = 
       <ul>
         {users.map((user) => <li key={user.id}>{user.email}</li>)}
       </ul>
-      <ul className='flex justify-center items-center gap-2 flex-wrap'>
+      <ul className='flex flex-wrap items-center justify-center gap-2'>
         {pages.map((page) => <li key={page}>
-          <Link className='text-lg cursor-pointer' href={`/users-ssr?page=${page}`}
+          <Link className='cursor-pointer text-lg' href={`/users-ssr?page=${page}`}
               style={{ color: page === pageFromQuery ? 'blue' : 'inherit' }}>
           {page}
         </Link>

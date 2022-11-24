@@ -34,7 +34,7 @@ export const DarkModeButton = () => {
   return <svg
     onClick={() => setTheme(nextTheme)}
     xmlns="http://www.w3.org/2000/svg"
-    className={`cursor-pointer h-10 w-10 ${color}`}
+    className={`h-10 w-10 cursor-pointer ${color}`}
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"

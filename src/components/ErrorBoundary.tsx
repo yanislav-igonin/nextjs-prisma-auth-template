@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import React, { Component } from 'react';
 
 type Props = {
   children?: ReactNode;
@@ -11,7 +12,7 @@ type State = {
 export class ErrorBoundary extends Component<Props, State> {
   state = { hasError: false };
 
-  public static getDerivedStateFromError(_: Error) {
+  public static getDerivedStateFromError(/*err: Error*/) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }

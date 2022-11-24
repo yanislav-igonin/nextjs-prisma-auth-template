@@ -6,10 +6,10 @@ const Dashboard: NextPage = () => {
   const meQuery = trpc.users.me.useQuery();
 
   return <Layout>
-    <main className="flex flex-col w-screen h-screen justify-center items-center">
+    <main className="flex h-screen w-screen flex-col items-center justify-center">
       {meQuery.data 
-        ? <h1 className="text-2xl mb-2 text-center">{meQuery.data.email}</h1>
-        : <h1 className="text-2xl mb-2 text-center">loading...</h1>}
+        ? <h1 className="mb-2 text-center text-2xl">{meQuery.data.email}</h1>
+        : <h1 className="mb-2 text-center text-2xl">loading...</h1>}
     </main>
   </Layout>;
 };

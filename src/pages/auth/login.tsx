@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { TRPCClientError } from '@trpc/client';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { trpc } from '@lib/trpc';
 import { Button, Input } from '@components';
 
@@ -23,12 +23,12 @@ const Login: NextPage = () => {
     }
   };
 
-  return <div className='flex items-center justify-center h-screen'>
-    <form onSubmit={onSubmit} className='flex flex-col w-full px-4 md:w-1/4'>
-      <h1 className='text-2xl mb-0 font-bold text-center'>login</h1>
-      <h1 className='text-2xl mb-0 text-red-500 text-center'>admin@admin.com</h1>
-      <h1 className='text-2xl mb-0 font-bold text-center'>password</h1>
-      <h1 className='text-2xl mb-2 text-red-500 text-center'>1234qwerA_</h1>
+  return <div className='flex h-screen items-center justify-center'>
+    <form onSubmit={onSubmit} className='flex w-full flex-col px-4 md:w-1/4'>
+      <h1 className='mb-0 text-center text-2xl font-bold'>login</h1>
+      <h1 className='mb-0 text-center text-2xl text-red-500'>admin@admin.com</h1>
+      <h1 className='mb-0 text-center text-2xl font-bold'>password</h1>
+      <h1 className='mb-2 text-center text-2xl text-red-500'>1234qwerA_</h1>
       <div className='m-1'>
         <Input placeholder='Email' disabled={login.isLoading} type="email" value={email} onChange={e => setEmail(e.target.value)} />
       </div>

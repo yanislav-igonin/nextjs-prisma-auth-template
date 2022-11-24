@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, FC } from 'react';
+import type { HTMLInputTypeAttribute, FC } from 'react';
 
 type Props = {
   value: string;
@@ -13,7 +13,7 @@ export const Input: FC<Props> = ({
     value={value}
     onChange={onChange}
     type={type}
-    className="border border-gray-300 rounded-md p-2 w-full"
+    className="w-full rounded-md border border-gray-300 p-2"
     placeholder={placeholder}
     disabled={disabled}
   />;

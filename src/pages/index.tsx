@@ -6,7 +6,7 @@ import { trpc } from '@lib/trpc';
 
 const LoginLink = () =>
   <div className='flex items-center'>
-    <Link className='hover:text-rose-500 dark:hover:text-rose-500 font-bold dark:text-slate-50' href="/auth/login">
+    <Link className='font-bold hover:text-rose-500 dark:text-slate-50 dark:hover:text-rose-500' href="/auth/login">
       LOGIN
     </Link>
   </div>;
@@ -26,12 +26,12 @@ const Home: NextPage = () => {
       </div>
     </div>
 
-    <main className="flex flex-col w-screen h-screen justify-center items-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
+    <main className="flex h-screen w-screen flex-col items-center justify-center bg-gradient-to-tr from-emerald-400 to-fuchsia-400 dark:from-emerald-600 dark:to-fuchsia-600">
       {helloQuery.data
-        ? <h1 className="text-2xl mb-2 text-center dark:text-white">
+        ? <h1 className="mb-2 text-center text-2xl dark:text-white">
           <>{helloQuery.data.message}</> at <>{helloQuery.data.time.toLocaleString()}</>
         </h1>
-        : <h1 className="text-2xl mb-2 text-center dark:text-white">loading...</h1>}
+        : <h1 className="mb-2 text-center text-2xl dark:text-white">loading...</h1>}
 
       <MainCard />
     </main>
